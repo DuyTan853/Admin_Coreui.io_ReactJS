@@ -30,13 +30,16 @@
     "chart.js": "^4.5.1",
     "classnames": "^2.5.1",
     "core-js": "^3.46.0",
+    "dotenv": "^17.2.3",
+    "gatsby": "^5.15.0",
     "prop-types": "^15.8.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.5",
     "redux": "5.0.1",
-    "simplebar-react": "^3.3.2"
+    "simplebar-react": "^3.3.2",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.0",
