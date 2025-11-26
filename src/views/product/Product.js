@@ -63,6 +63,7 @@ const Product = () => {
 
   // edit product
   const clickEditProductById = (product) => {
+    console.log(product.categoryId)
     setUpdate({ product: { ...product }, update: true })
   }
 

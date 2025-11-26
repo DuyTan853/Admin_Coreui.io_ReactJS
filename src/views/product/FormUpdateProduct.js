@@ -44,6 +44,8 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
     allowInstallment: product.allowInstallment,
     allowOnlinePrice: product.allowOnlinePrice,
   })
+  console.log(product.categoryId)
+  console.log(product.brandId)
 
   const [containerSpec, setContainerSpec] = useState({
     screenSize: product.specs.screenSize,
