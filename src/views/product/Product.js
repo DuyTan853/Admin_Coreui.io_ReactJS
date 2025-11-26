@@ -19,12 +19,14 @@ import {
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilFile, cilPencil } from '@coreui/icons'
 import { allProductsApi } from '../../services/api'
+import FormUpdareProduct from './FormUpdateProduct.js'
 
 const api_delete_products = import.meta.env.VITE_API_DELETE_PRODUCT
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
 
 const Product = () => {
   const [allProducts, setAllProducts] = useState([]) // State to hold all products data
+  const [update, setUpdate] = useState(false)
 
   const fetchResetApi = async () => {
     try {
@@ -53,13 +55,18 @@ const Product = () => {
     amount = Number(amount)
     return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
   }
-  const clickShowProductById = (id) => {
+
+  // show detail product
+  const clickShowDetailProduct = (id) => {
     console.log(id)
   }
 
-  const clickEditProductById = (id) => {
-    console.log(id)
+  // edit product
+  const clickEditProductById = (product) => {
+    setUpdate({ product: { ...product }, update: true })
   }
+
+  // delete product
   const clickDeleteProductById = async (id) => {
     if (!window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) return
 
@@ -116,14 +123,11 @@ const Product = () => {
                       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                         <CButton
                           color="info"
-                          onClick={() => clickShowProductById(product.idProduct)}
+                          onClick={() => clickShowDetailProduct(product.idProduct)}
                         >
                           <CIcon icon={cilFile} />
                         </CButton>
-                        <CButton
-                          color="primary"
-                          onClick={() => clickEditProductById(product.idProduct)}
-                        >
+                        <CButton color="primary" onClick={() => clickEditProductById(product)}>
                           <CIcon icon={cilPencil} />
                         </CButton>
                         <CButton
@@ -154,6 +158,15 @@ const Product = () => {
           </CPagination>
         </CCardBody>
       </CCard>
+      {/* truyền prop cho FormUpdareProduct giá trị onClose và setUpdate(flase) để bên FormUpdareProduct viết sự kiện onClick để thực thi Cancel */}
+      {update && (
+        <FormUpdareProduct
+          visible={update.update}
+          product={update.product}
+          Cancel={() => setUpdate(false)}
+          fetchResetApi={fetchResetApi}
+        />
+      )}
     </>
   )
 }

@@ -87,3 +87,39 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   margin-right: 5px;
 }
+
+/* Backdrop mờ */
+.popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+/* Nội dung popup */
+.popup-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  min-width: 300px;
+}
+
+/* Button đóng popup */
+.popup-close-btn {
+  margin-top: 10px;
+  padding: 5px 12px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.popup-close-btn:hover {
+  background-color: darkred;
+}
