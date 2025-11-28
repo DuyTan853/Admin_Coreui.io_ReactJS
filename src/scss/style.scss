@@ -123,3 +123,23 @@ body {
 .popup-close-btn:hover {
   background-color: darkred;
 }
+
+.user-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  margin-right: 5px;
+}
+.avatar-add {
+  width: 100%;
+  max-width: 350px; /* Không vượt quá 150px */
+  aspect-ratio: 1/1; /* Giữ hình vuông (tự tròn với border-radius) */
+  border-radius: 50%;
+  object-fit: cover; /* Không méo ảnh */
+  display: block;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}

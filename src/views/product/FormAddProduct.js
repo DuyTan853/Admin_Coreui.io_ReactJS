@@ -18,7 +18,7 @@ import { CIcon } from '@coreui/icons-react'
 import { cilCloudUpload } from '@coreui/icons'
 import imageUpLoadEmpty from '/public/image.png'
 import { v4 as uuidv4 } from 'uuid' // thư viện cung cấp id unique toàn cầu
-import { allBrandsApi, allCategoriesApi, allSpecsApi } from '../../services/api.js'
+import { allBrandsApi, allCategoriesApi, allSpecsApi, allStatusApi } from '../../services/api.js'
 
 const api_add_products = import.meta.env.VITE_API_ADD_PRODUCT
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
@@ -68,6 +68,7 @@ function FormAddProduct() {
   const [apiBrands, setApiBrands] = useState([])
   const [apiCategories, setApiCategories] = useState([])
   const [apiSpecs, setApiSpecs] = useState([])
+  const [apiStatus, setApiStatus] = useState([])
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -83,6 +84,10 @@ function FormAddProduct() {
         // call api SPECS
         const resultApiSpecs = await allSpecsApi()
         setApiSpecs(resultApiSpecs.specs)
+
+        // call api STATUS
+        const resultApiStatus = await allStatusApi()
+        setApiStatus(resultApiStatus.status)
       } catch (error) {
         console.log('fetchApi error:', error)
       }
@@ -132,6 +137,13 @@ function FormAddProduct() {
       label: key,
       value: key,
     }))
+
+  // lấy ra value của status
+  const valueStatus = apiStatus.map((value) => ({
+    label: value.statusName,
+    value: value.statusName,
+  }))
+  console.log(valueStatus)
 
   // Khi người dùng chọn file thumnail
   const handleFileThumbnail = (e) => {
@@ -341,11 +353,7 @@ function FormAddProduct() {
                       className="mb-3"
                       label="Status"
                       name="status"
-                      options={[
-                        { label: '- - - Select status - - -', value: '' },
-                        { label: 'Còn hàng', value: 'Còn hàng' },
-                        { label: 'Hết hàng', value: 'Hết hàng' },
-                      ]}
+                      options={[{ label: '- - - Select status - - -', value: '' }, ...valueStatus]}
                       onChange={(e) => handleSelectionFormProduct(e)}
                     />
                     <CFormCheck

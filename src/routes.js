@@ -9,6 +9,11 @@ const FormAddProduct = React.lazy(() => import('./views/product/FormAddProduct.j
 const FormAddBrand = React.lazy(() => import('./views/product/FormAddBrand.js'))
 const FormAddCategory = React.lazy(() => import('./views/product/FormAddCaterory.js'))
 const FormAddSpec = React.lazy(() => import('./views/product/FormAddSpec.js'))
+const FormAddStatus = React.lazy(() => import('./views/product/FormAddStatus.js'))
+const User = React.lazy(() => import('./views/users/Users.js'))
+const FormAddUser = React.lazy(() => import('./views/users/FormAddUser.js'))
+const FormAddRole = React.lazy(() => import('./views/users/FormAddRole.js'))
+const Revenue = React.lazy(() => import('./views/revenue/Revenue.js'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -20,6 +25,11 @@ const routes = [
   { path: '/addbrands', name: 'Add brands', element: FormAddBrand },
   { path: '/addcategories', name: 'Add categories', element: FormAddCategory },
   { path: '/addspes', name: 'Add specs', element: FormAddSpec },
+  { path: '/addstatus', name: 'Add specs', element: FormAddStatus },
+  { path: '/allusers', name: 'Add specs', element: User },
+  { path: '/adduser', name: 'Add specs', element: FormAddUser },
+  { path: '/addrole', name: 'Add specs', element: FormAddRole },
+  { path: '/revenue', name: 'Add specs', element: Revenue },
 ]
 
 export default routes

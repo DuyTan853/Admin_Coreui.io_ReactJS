@@ -18,39 +18,34 @@ import {
 } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilFile, cilPencil } from '@coreui/icons'
-import { showProductByLimit } from '../../services/api'
-import FormUpdareProduct from './FormUpdateProduct.js'
+import { showUsersByLimit } from '../../services/api.js'
+import FormUpdareUser from '../users/FormUpdateUser.js'
 
 const api_delete_products = import.meta.env.VITE_API_DELETE_PRODUCT
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
 
-const Product = () => {
-  const [allProducts, setAllProducts] = useState([]) // State to hold all products data
+const Users = () => {
+  const [allUsers, setAllUsers] = useState([]) // State to hold all products data
   const [update, setUpdate] = useState(false)
   const [page, setPage] = useState(1) // trang hiện tại
   const [limit] = useState(10) // số sản phẩm mỗi trang
   const [totalPages, setTotalPages] = useState(1)
 
   const fetchResetApi = async () => {
-    const result = await showProductByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
-    setAllProducts(result.products) // mảng sản phẩm be gửi lên
+    const result = await showUsersByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
+    setAllUsers(result.users) // mảng sản phẩm be gửi lên
     setTotalPages(result.totalPages) //totalPages từ be gửi lên fe
   }
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await showProductByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
-      setAllProducts(result.products) // mảng sản phẩm be gửi lên
+      const result = await showUsersByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
+      setAllUsers(result.users) // mảng sản phẩm be gửi lên
       setTotalPages(result.totalPages) //totalPages từ be gửi lên fe
     }
     fetchApi(page, limit)
   }, [page, limit])
-
-  const formatVND = (amount) => {
-    amount = Number(amount)
-    return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
-  }
-
+  console.log(allUsers)
   // show detail product
   const clickShowDetailProduct = (id) => {
     console.log(id)
@@ -68,7 +63,7 @@ const Product = () => {
 
     try {
       await axios.delete(`${api_delete_products}${id}`)
-      setAllProducts((prev) => prev.filter((p) => p.id !== id))
+      setAllUsers((prev) => prev.filter((p) => p.id !== id))
       alert('Xóa sản phẩm thành công!')
     } catch (err) {
       console.error('Lỗi khi xóa sản phẩm:', err)
@@ -89,47 +84,43 @@ const Product = () => {
           <CTable bordered striped hover>
             <CTableHead color="dark">
               <CTableRow>
-                <CTableHeaderCell scope="col">Product</CTableHeaderCell>
-                <CTableHeaderCell scope="col">Category</CTableHeaderCell>
-                <CTableHeaderCell scope="col">Brand</CTableHeaderCell>
-                <CTableHeaderCell scope="col">Quantity</CTableHeaderCell>
-                <CTableHeaderCell scope="col">Price orginal</CTableHeaderCell>
-                <CTableHeaderCell scope="col">Price</CTableHeaderCell>
+                <CTableHeaderCell scope="col">User</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Full name</CTableHeaderCell>
+                <CTableHeaderCell scope="col">User name</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Email</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Phone number</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Role</CTableHeaderCell>
+                <CTableHeaderCell scope="col">Address</CTableHeaderCell>
                 <CTableHeaderCell scope="col">Action</CTableHeaderCell>
               </CTableRow>
             </CTableHead>
             <CTableBody>
-              {allProducts.length > 0 ? (
-                allProducts.map((product, index) => (
+              {allUsers.length > 0 ? (
+                allUsers.map((user, index) => (
                   <CTableRow key={index}>
                     <CTableHeaderCell scope="row">
                       <img
-                        src={`${host_name}${product.thumbnail}`}
-                        alt={product.nameProduct}
-                        className="product-image"
+                        src={`${host_name}${user.avatar}`}
+                        alt={user.fullName}
+                        className="user-image"
                       />
-                      {product.nameProduct}
+                      {}
                     </CTableHeaderCell>
-                    <CTableDataCell>{product?.category?.nameCategory}</CTableDataCell>
-                    <CTableDataCell>{product?.brand?.nameBrand}</CTableDataCell>
-                    <CTableDataCell>{product?.specs?.quantity}</CTableDataCell>
-                    <CTableDataCell>{formatVND(product.originalPrice)}</CTableDataCell>
-                    <CTableDataCell>{formatVND(product.price)}</CTableDataCell>
+                    <CTableDataCell>{user.fullName}</CTableDataCell>
+                    <CTableDataCell>{user.userName}</CTableDataCell>
+                    <CTableDataCell>{user.email}</CTableDataCell>
+                    <CTableDataCell>{user.phone}</CTableDataCell>
+                    <CTableDataCell>{user.role}</CTableDataCell>
+                    <CTableDataCell>{user.addresses}</CTableDataCell>
                     <CTableDataCell>
-                      <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <CButton
-                          color="info"
-                          onClick={() => clickShowDetailProduct(product.idProduct)}
-                        >
+                      <div className="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <CButton color="info" onClick={() => clickShowDetailProduct(user.idUser)}>
                           <CIcon icon={cilFile} />
                         </CButton>
-                        <CButton color="primary" onClick={() => clickEditProductById(product)}>
+                        <CButton color="primary" onClick={() => clickEditProductById(user)}>
                           <CIcon icon={cilPencil} />
                         </CButton>
-                        <CButton
-                          color="danger"
-                          onClick={() => clickDeleteProductById(product.idProduct)}
-                        >
+                        <CButton color="danger" onClick={() => clickDeleteProductById(user.idUser)}>
                           <CIcon icon={cilTrash} />
                         </CButton>
                       </div>
@@ -168,9 +159,9 @@ const Product = () => {
           {/* ------------------------------------------- */}
         </CCardBody>
       </CCard>
-      {/* truyền prop cho FormUpdareProduct giá trị onClose và setUpdate(flase) để bên FormUpdareProduct viết sự kiện onClick để thực thi Cancel */}
+      {/* truyền prop cho FormUpdareUser giá trị onClose và setUpdate(flase) để bên FormUpdareUser viết sự kiện onClick để thực thi Cancel */}
       {update && (
-        <FormUpdareProduct
+        <FormUpdareUser
           visible={update.update}
           product={update.product}
           Cancel={() => setUpdate(false)}
@@ -181,4 +172,4 @@ const Product = () => {
   )
 }
 
-export default Product
+export default Users

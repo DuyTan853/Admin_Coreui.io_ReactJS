@@ -6,6 +6,10 @@ import {
   cilLibraryAdd,
   cilPlaylistAdd,
   cilFork,
+  cilUserPlus,
+  cilUser,
+  cilCart,
+  cilChart,
 } from '@coreui/icons'
 import { CNavItem, CNavTitle, CNavGroup } from '@coreui/react'
 
@@ -58,12 +62,56 @@ const _nav = [
         to: '/addspes',
         icon: <CIcon icon={cilPlaylistAdd} customClassName="nav-icon" />,
       },
+      {
+        component: CNavItem,
+        name: 'Add status',
+        to: '/addstatus',
+        icon: <CIcon icon={cilPlaylistAdd} customClassName="nav-icon" />,
+      },
     ],
   },
 
   {
     component: CNavTitle,
-    name: 'Customers management',
+    name: 'Users management',
+  },
+  {
+    component: CNavItem,
+    name: 'All users',
+    to: '/allusers',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Add user',
+    to: '/adduser',
+    icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Add role',
+    to: '/addrole',
+    icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Orders management',
+  },
+  {
+    component: CNavItem,
+    name: 'All orders',
+    to: '/allorders',
+    icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Revenue management',
+  },
+  {
+    component: CNavItem,
+    name: 'Revenue',
+    to: '/revenue',
+    icon: <CIcon icon={cilChart} customClassName="nav-icon" />,
   },
 ]
 
