@@ -28,39 +28,39 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
   const navigate = useNavigate() // hook của react-router-dom , dùng để chuyển page
 
   const [containerProduct, setContainerProduct] = useState({
-    idProduct: product.idProduct,
-    slug: product.slug,
-    nameProduct: product.nameProduct,
-    categoryId: product.categoryId,
-    brandId: product.brandId,
-    price: product.price,
-    originalPrice: product.originalPrice,
-    discountPercent: product.discountPercent,
-    thumbnail: product.thumbnail,
-    shortDesc: product.shortDesc,
-    description: product.description,
-    status: product.status,
-    isFeatured: product.isFeatured,
-    allowInstallment: product.allowInstallment,
-    allowOnlinePrice: product.allowOnlinePrice,
+    idProduct: product?.idProduct,
+    slug: product?.slug,
+    nameProduct: product?.nameProduct,
+    categoryId: product?.categoryId,
+    brandId: product?.brandId,
+    price: product?.price,
+    originalPrice: product?.originalPrice,
+    discountPercent: product?.discountPercent,
+    thumbnail: product?.thumbnail,
+    shortDesc: product?.shortDesc,
+    description: product?.description,
+    status: product?.status,
+    isFeatured: product?.isFeatured,
+    allowInstallment: product?.allowInstallment,
+    allowOnlinePrice: product?.allowOnlinePrice,
   })
   console.log(product.categoryId)
   console.log(product.brandId)
 
   const [containerSpec, setContainerSpec] = useState({
-    screenSize: product.specs.screenSize,
-    screenTechnology: product.specs.screenTechnology,
-    rearCamera: product.specs.rearCamera,
-    frontCamera: product.specs.frontCamera,
-    chipset: product.specs.chipset,
-    internalMemory: product.specs.internalMemory,
-    battery: product.specs.battery,
-    operatingSystem: product.specs.operatingSystem,
-    screenResolution: product.specs.screenResolution,
-    screenFeatures: product.specs.screenFeatures,
-    cpuType: product.specs.cpuType,
-    compatibility: product.specs.compatibility,
-    quantity: product.specs.quantity,
+    screenSize: product?.specs?.screenSize || '',
+    screenTechnology: product?.specs?.screenTechnology || '',
+    rearCamera: product?.specs?.rearCamera || '',
+    frontCamera: product?.specs?.frontCamera || '',
+    chipset: product?.specs?.chipset || '',
+    internalMemory: product?.specs?.internalMemory || '',
+    battery: product?.specs?.battery || '',
+    operatingSystem: product?.specs?.operatingSystem || '',
+    screenResolution: product?.specs?.screenResolution || '',
+    screenFeatures: product?.specs?.screenFeatures || '',
+    cpuType: product?.specs?.cpuType || '',
+    compatibility: product?.specs?.compatibility || '',
+    quantity: product?.specs?.quantity || '',
   })
 
   const [previewThumbnail, setPreviewThumbnail] = useState(
@@ -145,7 +145,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
         .filter((item) => item[key.value])
         .map((item) => ({
           label: formatLabel(item[key.value]),
-          value: item[key.value],
+          value: item[key.value] || '',
         }))
     })
     return obj
@@ -173,11 +173,6 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
     setPreviewImages(previewImage)
     setImagesFile(files)
   }, [])
-
-  // function use uuid , create id
-  const randomIdProduct = () => {
-    return `${uuidv4()}`
-  }
 
   // create slug by name product
   const createSlugByNameProduct = (nameProduct) => {
@@ -290,7 +285,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           type="text"
                           label="Name product"
                           name="nameProduct"
-                          value={containerProduct.nameProduct}
+                          value={containerProduct.nameProduct || ''}
                           onChange={handleInputForm}
                         />
                         <CFormInput
@@ -298,7 +293,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           type="text"
                           label="Short description"
                           name="shortDesc"
-                          value={containerProduct.shortDesc}
+                          value={containerProduct.shortDesc || ''}
                           onChange={handleInputForm}
                         />
                         <CFormTextarea
@@ -306,7 +301,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           label="Detail description"
                           rows="6"
                           name="description"
-                          value={containerProduct.description}
+                          value={containerProduct.description || ''}
                           onChange={handleInputForm}
                         ></CFormTextarea>
                       </CCol>
@@ -348,7 +343,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           type="text"
                           label="Original Price"
                           name="originalPrice"
-                          value={containerProduct.originalPrice}
+                          value={containerProduct.originalPrice || ''}
                           onChange={handleInputForm}
                         />
                         <CFormInput
@@ -356,7 +351,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           type="text"
                           label="Price"
                           name="price"
-                          value={containerProduct.price}
+                          value={containerProduct.price || ''}
                           onChange={handleInputForm}
                         />
                         <CFormInput
@@ -364,7 +359,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           type="text"
                           label="Discount"
                           name="discountPercent"
-                          value={containerProduct?.discountPercent}
+                          value={containerProduct?.discountPercent || ''}
                           onChange={handleInputForm}
                         />
                         <CFormInput
@@ -372,7 +367,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           type="text"
                           label="Quantity"
                           name="quantity"
-                          value={containerSpec?.quantity}
+                          value={containerSpec?.quantity || ''}
                           onChange={handleInputSpec}
                         />
                         <CFormSelect
@@ -380,7 +375,10 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           label="Status"
                           name="status"
                           options={[
-                            { label: '- - - Select status - - -', value: '' },
+                            {
+                              label: containerProduct.status || '- - - Select status - - -',
+                              value: '',
+                            },
                             { label: 'Còn hàng', value: 'Còn hàng' },
                             { label: 'Hết hàng', value: 'Hết hàng' },
                           ]}
@@ -392,7 +390,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           id="flexRadioDefault1"
                           label="Allow intallment"
                           name="allowInstallment"
-                          checked={containerProduct.allowInstallment}
+                          checked={containerProduct.allowInstallment || ''}
                           onChange={handleInputForm}
                         />
                         <CFormCheck
@@ -401,7 +399,7 @@ const FormUpdareProduct = ({ visible, product, Cancel, fetchResetApi }) => {
                           id="flexRadioDefault2"
                           label="Allow online price"
                           name="allowOnlinePrice"
-                          checked={containerProduct.allowOnlinePrice}
+                          checked={containerProduct.allowOnlinePrice || ''}
                           onChange={handleInputForm}
                         />
                       </CCol>

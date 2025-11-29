@@ -27,39 +27,39 @@ function FormAddProduct() {
   const navigate = useNavigate() // hook của react-router-dom , dùng để chuyển page
 
   const [containerProduct, setContainerProduct] = useState({
-    idProduct: 'PROD-001',
-    slug: 'iphone-15-pro-max',
-    nameProduct: 'iPhone 15 Pro Max',
-    categoryId: '1', // id giả sử của category
-    brandId: '1', // id giả sử của brand
-    price: '32990000',
-    originalPrice: '34990000',
-    discountPercent: 10,
+    idProduct: '',
+    slug: '',
+    nameProduct: '',
+    categoryId: '',
+    brandId: '',
+    price: '',
+    originalPrice: '',
+    discountPercent: '',
     thumbnail: '',
-    shortDesc: 'Điện thoại cao cấp nhất của Apple.',
-    description: 'Mô tả chi tiết sản phẩm iPhone 15 Pro Max...',
-    status: 'available',
-    isFeatured: true,
-    allowInstallment: true,
-    allowOnlinePrice: true,
+    shortDesc: '',
+    description: '',
+    status: '',
+    isFeatured: '',
+    allowInstallment: '',
+    allowOnlinePrice: '',
     createAt: new Date(),
     updateAt: new Date(),
   })
   const [containerSpec, setContainerSpec] = useState({
-    productId: containerProduct.idProduct, // hoặc id test
-    screenSize: '6.8 inch',
-    screenTechnology: 'Dynamic AMOLED 2X',
-    rearCamera: '200MP + 12MP + 12MP',
-    frontCamera: '40MP',
-    chipset: 'Exynos 2400',
-    internalMemory: '512GB',
-    battery: '5000 mAh',
-    operatingSystem: 'Android 14',
-    screenResolution: '3088 x 1440',
-    screenFeatures: '120Hz, HDR10+',
-    cpuType: 'Octa-core',
-    compatibility: '5G, Wi-Fi 7, Bluetooth 5.3',
-    quantity: 15,
+    productId: containerProduct.idProduct,
+    screenSize: '',
+    screenTechnology: '',
+    rearCamera: '',
+    frontCamera: '',
+    chipset: '',
+    internalMemory: '',
+    battery: '',
+    operatingSystem: '',
+    screenResolution: '',
+    screenFeatures: '',
+    cpuType: '',
+    compatibility: '',
+    quantity: '',
   })
   const [previewThumbnail, setPreviewThumbnail] = useState([]) // show image trực tiếp sau khi chọn file
   const [previewImages, setPreviewImages] = useState([]) // show image trực tiếp sau khi chọn file
@@ -232,10 +232,10 @@ function FormAddProduct() {
         },
       })
       alert('Tạo sản phẩm thành công!')
+      navigate('/allproducts')
     } catch (err) {
       console.error('Lỗi khi tạo sản phẩm:', err)
     }
-    navigate('/allproducts')
   }
 
   return (

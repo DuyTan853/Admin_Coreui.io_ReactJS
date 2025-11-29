@@ -21,26 +21,26 @@ import { cilTrash, cilFile, cilPencil } from '@coreui/icons'
 import { showUsersByLimit } from '../../services/api.js'
 import FormUpdareUser from '../users/FormUpdateUser.js'
 
-const api_delete_products = import.meta.env.VITE_API_DELETE_PRODUCT
+const api_delete_user = import.meta.env.VITE_API_DELETE_USER
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
 
 const Users = () => {
   const [allUsers, setAllUsers] = useState([]) // State to hold all products data
   const [update, setUpdate] = useState(false)
   const [page, setPage] = useState(1) // trang hiện tại
-  const [limit] = useState(10) // số sản phẩm mỗi trang
+  const [limit] = useState(10) // số user mỗi trang
   const [totalPages, setTotalPages] = useState(1)
 
   const fetchResetApi = async () => {
     const result = await showUsersByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
-    setAllUsers(result.users) // mảng sản phẩm be gửi lên
+    setAllUsers(result.users) // mảng user be gửi lên
     setTotalPages(result.totalPages) //totalPages từ be gửi lên fe
   }
 
   useEffect(() => {
     const fetchApi = async () => {
       const result = await showUsersByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
-      setAllUsers(result.users) // mảng sản phẩm be gửi lên
+      setAllUsers(result.users) // mảng user be gửi lên
       setTotalPages(result.totalPages) //totalPages từ be gửi lên fe
     }
     fetchApi(page, limit)
@@ -59,15 +59,15 @@ const Users = () => {
 
   // delete product
   const clickDeleteProductById = async (id) => {
-    if (!window.confirm('Bạn có chắc muốn xóa sản phẩm này?')) return
+    if (!window.confirm('Bạn có chắc muốn xóa user này?')) return
 
     try {
-      await axios.delete(`${api_delete_products}${id}`)
-      setAllUsers((prev) => prev.filter((p) => p.id !== id))
-      alert('Xóa sản phẩm thành công!')
+      await axios.delete(`${api_delete_user}${id}`)
+      setAllUsers((prev) => prev.filter((p) => p.idUser !== id))
+      alert('Xóa user thành công!')
     } catch (err) {
-      console.error('Lỗi khi xóa sản phẩm:', err)
-      alert('Xóa sản phẩm thất bại!')
+      console.error('Lỗi khi xóa user:', err)
+      alert('Xóa user thất bại!')
     }
     fetchResetApi()
   }
