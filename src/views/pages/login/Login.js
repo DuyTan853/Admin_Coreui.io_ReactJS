@@ -15,7 +15,9 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
-import { allUserApi } from '../../../services/api.js'
+import { callApi } from '../../../services/api.js'
+
+const api_all_users = import.meta.env.VITE_API_SHOW_USERS
 
 const Login = () => {
   const navigate = useNavigate()
@@ -25,7 +27,7 @@ const Login = () => {
 
   useEffect(() => {
     const fetchApiUser = async () => {
-      const result = await allUserApi()
+      const result = await callApi(api_all_users)
       setApiUser(result.users)
     }
     fetchApiUser()

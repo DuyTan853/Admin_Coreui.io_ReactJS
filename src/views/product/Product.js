@@ -18,9 +18,10 @@ import {
 } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilFile, cilPencil } from '@coreui/icons'
-import { showProductByLimit } from '../../services/api'
+import { callApiByLimit } from '../../services/api'
 import FormUpdareProduct from './FormUpdateProduct.js'
 
+const api_show_products_by_limit = import.meta.env.VITE_API_SHOW_PRODUCTS_LIMIT
 const api_delete_products = import.meta.env.VITE_API_DELETE_PRODUCT
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
 
@@ -32,14 +33,14 @@ const Product = () => {
   const [totalPages, setTotalPages] = useState(1)
 
   const fetchResetApi = async () => {
-    const result = await showProductByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
+    const result = await callApiByLimit(api_show_products_by_limit, page, limit) //res.data để nhận dữ liệu từ be gửi lên
     setAllProducts(result.products) // mảng sản phẩm be gửi lên
     setTotalPages(result.totalPages) //totalPages từ be gửi lên fe
   }
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await showProductByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
+      const result = await callApiByLimit(api_show_products_by_limit, page, limit) //res.data để nhận dữ liệu từ be gửi lên
       setAllProducts(result.products) // mảng sản phẩm be gửi lên
       setTotalPages(result.totalPages) //totalPages từ be gửi lên fe
     }

@@ -21,9 +21,10 @@ import {
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilPencil, cilCloudUpload } from '@coreui/icons'
 import imageUpLoad from '/public/image.png'
-import { allBrandsApi } from '../../services/api'
+import { callApi } from '../../services/api'
 
 // define api link
+const api_all_brands = import.meta.env.VITE_API_SHOW_BRANDS
 const api_add_brand = import.meta.env.VITE_API_ADD_BRAND
 const api_update_brand = import.meta.env.VITE_API_UPDATE_BRAND
 const api_delete_brand = import.meta.env.VITE_API_DELETE_BRAND
@@ -39,7 +40,7 @@ function FormAddBrand() {
   const CBFetchAllBrands = async () => {
     //nếu tách fetchAllBrand khỏi useEffect thì bị báo lỗi eslint nên tạo hẳn hàm mới cho việc gọi lại api khi CRUD brand mới
     try {
-      const result = await allBrandsApi()
+      const result = await callApi(api_all_brands)
       setAllBrands(result.brands)
     } catch (error) {
       console.log('call api error:', error)
@@ -48,7 +49,7 @@ function FormAddBrand() {
   useEffect(() => {
     const fetchAllBrands = async () => {
       try {
-        const result = await allBrandsApi()
+        const result = await callApi(api_all_brands)
         setAllBrands(result.brands)
       } catch (error) {
         console.log('call api error:', error)

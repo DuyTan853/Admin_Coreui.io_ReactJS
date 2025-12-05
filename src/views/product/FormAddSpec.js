@@ -19,9 +19,10 @@ import {
 } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilPencil, cilCloudUpload } from '@coreui/icons'
-import { allSpecsApi } from '../../services/api'
+import { callApi } from '../../services/api'
 
 // define api link
+const api_all_specs = import.meta.env.VITE_API_SHOW_SPECS
 const api_add_spec = import.meta.env.VITE_API_ADD_SPEC
 const api_update_spec = import.meta.env.VITE_API_UPDATE_SPEC
 
@@ -34,7 +35,7 @@ function FormAddSpec() {
   const CBFetchAllSpecs = async () => {
     //nếu tách fetchAllBrand khỏi useEffect thì bị báo lỗi eslint nên tạo hẳn hàm mới cho việc gọi lại api khi CRUD brand mới
     try {
-      const result = await allSpecsApi()
+      const result = await callApi(api_all_specs)
       setAllSpecs(result.specs)
     } catch (error) {
       console.log('call api error:', error)
@@ -45,7 +46,7 @@ function FormAddSpec() {
   useEffect(() => {
     const fetchAllSpecs = async () => {
       try {
-        const result = await allSpecsApi()
+        const result = await callApi(api_all_specs)
         setAllSpecs(result.specs)
       } catch (error) {
         console.log('call api error:', error)

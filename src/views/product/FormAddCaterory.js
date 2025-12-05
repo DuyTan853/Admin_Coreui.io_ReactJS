@@ -20,8 +20,9 @@ import {
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilPencil, cilCloudUpload } from '@coreui/icons'
 import imageUpLoad from '/public/image.png'
-import { allCategoriesApi } from '../../services/api'
+import { callApi } from '../../services/api'
 
+const api_all_categories = import.meta.env.VITE_API_SHOW_CATEGORIES
 const api_add_category = import.meta.env.VITE_API_ADD_CATEGORY
 const api_update_category = import.meta.env.VITE_API_UPDATE_CATEGORY
 const api_delete_category = import.meta.env.VITE_API_DELETE_CATEGORY
@@ -41,7 +42,7 @@ function FormAddCategory() {
   const CBFetchAllCategories = async () => {
     //nếu tách fetchAllcategorykhỏi useEffect thì bị báo lỗi eslint nên tạo hẳn hàm mới cho việc gọi lại api khi CRUD categorymới
     try {
-      const result = await allCategoriesApi()
+      const result = await callApi(api_all_categories)
       setAllCategories(result.categories)
     } catch (error) {
       console.log('call api error:', error)
@@ -50,7 +51,7 @@ function FormAddCategory() {
   useEffect(() => {
     const fetchAllCategories = async () => {
       try {
-        const result = await allCategoriesApi()
+        const result = await callApi(api_all_categories)
         setAllCategories(result.categories || [])
       } catch (error) {
         console.log('call api error:', error)

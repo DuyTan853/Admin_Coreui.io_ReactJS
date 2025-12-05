@@ -19,8 +19,9 @@ import {
 import { CIcon } from '@coreui/icons-react'
 import { cilCloudUpload, cilPencil } from '@coreui/icons'
 import imageUpLoadEmpty from '/public/image.png'
-import { allRoleApi } from '../../services/api.js'
+import { callApi } from '../../services/api.js'
 
+const api_all_role = import.meta.env.VITE_API_SHOW_ROLE
 const api_update_user = import.meta.env.VITE_API_UPDATE_USER
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
 
@@ -53,7 +54,7 @@ const FormUpdateUser = ({ visible, user, Cancel, fetchResetApi }) => {
   useEffect(() => {
     const fetchRoleApi = async () => {
       try {
-        const result = await allRoleApi()
+        const result = await callApi(api_all_role)
         setApiRole(result.role)
       } catch (error) {
         console.log('fetchApi error:', error)

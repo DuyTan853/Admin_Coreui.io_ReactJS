@@ -13,6 +13,7 @@ const FormAddStatus = React.lazy(() => import('./views/product/FormAddStatus.js'
 const User = React.lazy(() => import('./views/users/Users.js'))
 const FormAddUser = React.lazy(() => import('./views/users/FormAddUser.js'))
 const FormAddRole = React.lazy(() => import('./views/users/FormAddRole.js'))
+const Orders = React.lazy(() => import('./views/orders/order.js'))
 const Revenue = React.lazy(() => import('./views/revenue/Revenue.js'))
 
 const routes = [
@@ -29,6 +30,7 @@ const routes = [
   { path: '/allusers', name: 'Add specs', element: User },
   { path: '/adduser', name: 'Add specs', element: FormAddUser },
   { path: '/addrole', name: 'Add specs', element: FormAddRole },
+  { path: '/allorders', name: 'All orders', element: Orders },
   { path: '/revenue', name: 'Add specs', element: Revenue },
 ]
 

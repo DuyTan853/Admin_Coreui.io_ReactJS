@@ -20,9 +20,10 @@ import {
 } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilPencil, cilCloudUpload } from '@coreui/icons'
-import { allRoleApi } from '../../services/api'
+import { callApi } from '../../services/api'
 
 // define api link
+const api_all_role = import.meta.env.VITE_API_SHOW_ROLE
 const api_add_role = import.meta.env.VITE_API_ADD_ROLE
 const api_update_role = import.meta.env.VITE_API_UPDATE_ROLE
 const api_delete_role = import.meta.env.VITE_API_DELETE_ROLE
@@ -34,7 +35,7 @@ function FormAddRole() {
   const CBFetchAllRole = async () => {
     //nếu tách fetchAllRole khỏi useEffect thì bị báo lỗi eslint nên tạo hẳn hàm mới cho việc gọi lại api khi CRUD status mới
     try {
-      const result = await allRoleApi()
+      const result = await callApi(api_all_role)
       setAllRole(result.role)
     } catch (error) {
       console.log('call api error:', error)
@@ -43,7 +44,7 @@ function FormAddRole() {
   useEffect(() => {
     const fetchAllRole = async () => {
       try {
-        const result = await allRoleApi()
+        const result = await callApi(api_all_role)
         setAllRole(result.role)
       } catch (error) {
         console.log('call api error:', error)

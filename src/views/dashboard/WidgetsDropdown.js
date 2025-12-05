@@ -13,7 +13,7 @@ import { getStyle } from '@coreui/utils'
 import { CChartBar, CChartLine } from '@coreui/react-chartjs'
 import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
-import { allProductsApi, allUserApi, showAllOrder, showAllQuestion } from '../../services/api.js'
+import { callApi } from '../../services/api.js'
 
 const WidgetsDropdown = (props) => {
   const widgetChartRef1 = useRef(null)
@@ -37,24 +37,32 @@ const WidgetsDropdown = (props) => {
     })
   }, [widgetChartRef1, widgetChartRef2])
 
+  ////////////////////////
+  const api_all_products = import.meta.env.VITE_API_SHOW_PRODUCTS
+  const api_all_users = import.meta.env.VITE_API_SHOW_USERS
+  const api_all_questions = import.meta.env.VITE_API_SHOW_QUESTION
+  const api_all_orders = import.meta.env.VITE_API_SHOW_ORDERS
+
   // lấy ra tổng
   const [count, setCount] = useState({})
   useEffect(() => {
     const fetchApiProduct = async () => {
       // count Product
-      const resultProduct = await allProductsApi()
+      const resultProduct = await callApi(api_all_products)
       const countProduct = resultProduct.products.length
 
       //count User
-      const resultUser = await allUserApi()
+      const resultUser = await callApi(api_all_users)
       const countUser = resultUser.users.length
 
       //count Question
-      const resultQuestion = await showAllQuestion()
-      const countQuestion = resultQuestion.length
+      const resultQuestion = await callApi(api_all_questions)
+      const countQuestion = resultQuestion.filter(
+        (question) => question.answer === '' || question.answer === null,
+      ).length
 
       //count Order
-      const resultOrder = await showAllOrder()
+      const resultOrder = await callApi(api_all_orders)
       const countOrder = resultOrder.orders.length
 
       setCount({ countProduct, countOrder, countUser, countQuestion })

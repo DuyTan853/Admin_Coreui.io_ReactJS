@@ -18,9 +18,10 @@ import {
 } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilFile, cilPencil } from '@coreui/icons'
-import { showUsersByLimit } from '../../services/api.js'
+import { callApiByLimit } from '../../services/api.js'
 import FormUpdareUser from '../users/FormUpdateUser.js'
 
+const api_show_users_by_limit = import.meta.env.VITE_API_SHOW_USERS_LIMIT
 const api_delete_user = import.meta.env.VITE_API_DELETE_USER
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
 
@@ -32,14 +33,14 @@ const Users = () => {
   const [totalPages, setTotalPages] = useState(1)
 
   const fetchResetApi = async () => {
-    const result = await showUsersByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
+    const result = await callApiByLimit(api_show_users_by_limit, page, limit) //res.data để nhận dữ liệu từ be gửi lên
     setAllUsers(result.users) // mảng user be gửi lên
     setTotalPages(result.totalPages) //totalPages từ be gửi lên fe
   }
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await showUsersByLimit(page, limit) //res.data để nhận dữ liệu từ be gửi lên
+      const result = await callApiByLimit(api_show_users_by_limit, page, limit) //res.data để nhận dữ liệu từ be gửi lên
       setAllUsers(result.users) // mảng user be gửi lên
       setTotalPages(result.totalPages) //totalPages từ be gửi lên fe
     }

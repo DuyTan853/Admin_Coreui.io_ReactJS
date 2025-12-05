@@ -1,5 +1,5 @@
 import axios from 'axios'
-////////// Tối ưu sau
+
 const api_all_products = import.meta.env.VITE_API_SHOW_PRODUCTS
 const api_show_products_by_limit = import.meta.env.VITE_API_SHOW_PRODUCTS_LIMIT
 const api_all_brands = import.meta.env.VITE_API_SHOW_BRANDS
@@ -12,9 +12,9 @@ const api_show_users_by_limit = import.meta.env.VITE_API_SHOW_USERS_LIMIT
 const api_all_orders = import.meta.env.VITE_API_SHOW_ORDERS
 const api_all_questions = import.meta.env.VITE_API_SHOW_QUESTION
 
-export const allProductsApi = () =>
+export const callApi = (url) =>
   axios
-    .get(api_all_products)
+    .get(`${url}`)
     .then((response) => {
       console.log('API response All data:', response.data)
       return response.data
@@ -24,117 +24,9 @@ export const allProductsApi = () =>
       throw error
     })
 
-export const allBrandsApi = () =>
+export const callApiByLimit = (url, page, limit) =>
   axios
-    .get(api_all_brands)
-    .then((response) => {
-      console.log('API response All data:', response.data)
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching data from API:', error)
-      throw error
-    })
-
-export const allCategoriesApi = () =>
-  axios
-    .get(api_all_categories)
-    .then((response) => {
-      console.log('API response All data:', response.data)
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching data from API:', error)
-      throw error
-    })
-
-export const allSpecsApi = () =>
-  axios
-    .get(api_all_specs)
-    .then((response) => {
-      console.log('API response All data:', response.data)
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching data from API:', error)
-      throw error
-    })
-
-export const showProductByLimit = (page, limit) =>
-  axios
-    .get(`${api_show_products_by_limit}?page=${page}&limit=${limit}`)
-    .then((response) => {
-      console.log('API response All data:', response.data)
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching data from API:', error)
-      throw error
-    })
-
-export const allStatusApi = () =>
-  axios
-    .get(api_all_status)
-    .then((response) => {
-      console.log('API response All data:', response.data)
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching data from API:', error)
-      throw error
-    })
-
-export const allUserApi = () =>
-  axios
-    .get(api_all_users)
-    .then((response) => {
-      console.log('API response All data:', response.data)
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching data from API:', error)
-      throw error
-    })
-
-export const allRoleApi = () =>
-  axios
-    .get(api_all_role)
-    .then((response) => {
-      console.log('API response All data:', response.data)
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching data from API:', error)
-      throw error
-    })
-
-export const showUsersByLimit = (page, limit) =>
-  axios
-    .get(`${api_show_users_by_limit}?page=${page}&limit=${limit}`)
-    .then((response) => {
-      console.log('API response All data:', response.data)
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching data from API:', error)
-      throw error
-    })
-
-export const showAllOrder = () =>
-  axios
-    .get(`${api_all_orders}`)
-    .then((response) => {
-      console.log('API response All data:', response.data)
-      return response.data
-    })
-    .catch((error) => {
-      console.error('Error fetching data from API:', error)
-      throw error
-    })
-
-export const showAllQuestion = () =>
-  axios
-    .get(`${api_all_questions}`)
+    .get(`${url}?page=${page}&limit=${limit}`)
     .then((response) => {
       console.log('API response All data:', response.data)
       return response.data

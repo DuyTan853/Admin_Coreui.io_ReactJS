@@ -18,8 +18,12 @@ import { CIcon } from '@coreui/icons-react'
 import { cilCloudUpload } from '@coreui/icons'
 import imageUpLoadEmpty from '/public/image.png'
 import { v4 as uuidv4 } from 'uuid' // thư viện cung cấp id unique toàn cầu
-import { allBrandsApi, allCategoriesApi, allSpecsApi, allStatusApi } from '../../services/api.js'
+import { callApi } from '../../services/api.js'
 
+const api_all_brands = import.meta.env.VITE_API_SHOW_BRANDS
+const api_all_categories = import.meta.env.VITE_API_SHOW_CATEGORIES
+const api_all_specs = import.meta.env.VITE_API_SHOW_SPECS
+const api_all_status = import.meta.env.VITE_API_SHOW_STATUS
 const api_add_products = import.meta.env.VITE_API_ADD_PRODUCT
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
 
@@ -74,19 +78,19 @@ function FormAddProduct() {
     const fetchApi = async () => {
       try {
         // call api BRANDS
-        const resultApiBrands = await allBrandsApi()
+        const resultApiBrands = await callApi(api_all_brands)
         setApiBrands(resultApiBrands.brands)
 
         // call api CATEGORIES
-        const resultApiCategories = await allCategoriesApi()
+        const resultApiCategories = await callApi(api_all_categories)
         setApiCategories(resultApiCategories.categories)
 
         // call api SPECS
-        const resultApiSpecs = await allSpecsApi()
+        const resultApiSpecs = await callApi(api_all_specs)
         setApiSpecs(resultApiSpecs.specs)
 
         // call api STATUS
-        const resultApiStatus = await allStatusApi()
+        const resultApiStatus = await callApi(api_all_status)
         setApiStatus(resultApiStatus.status)
       } catch (error) {
         console.log('fetchApi error:', error)

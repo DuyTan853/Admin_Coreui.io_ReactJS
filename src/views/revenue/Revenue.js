@@ -1,91 +1,84 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { getStyle } from '@coreui/utils'
 import { CChart } from '@coreui/react-chartjs'
+import axios from 'axios'
+import { callApi } from '../../services/api.js'
+
+const api_orders = import.meta.env.VITE_API_SHOW_ORDERS
 
 const Revenue = () => {
   const chartRef = useRef(null)
+  const [chartData, setChartData] = useState({
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    datasets: [
+      {
+        label: 'Revenue',
+        backgroundColor: '#f87979',
+        borderColor: '#f87979',
+        data: Array(12).fill(0), // mặc định 12 tháng = 0
+      },
+    ],
+  })
 
   useEffect(() => {
-    const handleColorSchemeChange = () => {
-      const chartInstance = chartRef.current
-      if (chartInstance) {
-        const { options } = chartInstance
+    const fetchOrders = async () => {
+      try {
+        const res = await callApi(api_orders)
+        const orders = res.orders
+        console.log(orders)
+        // Tính tổng doanh thu theo tháng
+        const revenuePerMonth = Array(12).fill(0)
+        orders.forEach((order) => {
+          const month = new Date(order.createdAt).getMonth() // 0-11
+          const total = parseFloat(order.total) || 0 // đảm bảo là số
+          revenuePerMonth[month] += total
+        })
 
-        if (options.plugins?.legend?.labels) {
-          options.plugins.legend.labels.color = getStyle('--cui-body-color')
-        }
-
-        if (options.scales?.x) {
-          if (options.scales.x.grid) {
-            options.scales.x.grid.color = getStyle('--cui-border-color-translucent')
-          }
-          if (options.scales.x.ticks) {
-            options.scales.x.ticks.color = getStyle('--cui-body-color')
-          }
-        }
-
-        if (options.scales?.y) {
-          if (options.scales.y.grid) {
-            options.scales.y.grid.color = getStyle('--cui-border-color-translucent')
-          }
-          if (options.scales.y.ticks) {
-            options.scales.y.ticks.color = getStyle('--cui-body-color')
-          }
-        }
-
-        chartInstance.update()
+        setChartData((prev) => ({
+          ...prev,
+          datasets: [{ ...prev.datasets[0], data: revenuePerMonth }],
+        }))
+      } catch (error) {
+        console.error(error)
       }
     }
 
-    document.documentElement.addEventListener('ColorSchemeChange', handleColorSchemeChange)
-
-    return () => {
-      document.documentElement.removeEventListener('ColorSchemeChange', handleColorSchemeChange)
-    }
+    fetchOrders()
   }, [])
-
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September'], // 9 labels
-    datasets: [
-      {
-        label: 'GitHub Commits',
-        backgroundColor: '#f87979',
-        borderColor: '#f87979',
-        data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
-      },
-    ],
-  }
 
   const options = {
     plugins: {
       legend: {
-        labels: {
-          color: getStyle('--cui-body-color'),
-        },
+        labels: { color: getStyle('--cui-body-color') },
       },
     },
     scales: {
       x: {
-        grid: {
-          color: getStyle('--cui-border-color-translucent'),
-        },
-        ticks: {
-          color: getStyle('--cui-body-color'),
-        },
-        type: 'category',
+        grid: { color: getStyle('--cui-border-color-translucent') },
+        ticks: { color: getStyle('--cui-body-color') },
       },
       y: {
-        grid: {
-          color: getStyle('--cui-border-color-translucent'),
-        },
-        ticks: {
-          color: getStyle('--cui-body-color'),
-        },
+        grid: { color: getStyle('--cui-border-color-translucent') },
+        ticks: { color: getStyle('--cui-body-color') },
         beginAtZero: true,
       },
     },
   }
 
-  return <CChart type="bar" data={data} options={options} ref={chartRef} />
+  return <CChart type="bar" data={chartData} options={options} ref={chartRef} />
 }
+
 export default Revenue

@@ -18,8 +18,9 @@ import { CIcon } from '@coreui/icons-react'
 import { cilCloudUpload } from '@coreui/icons'
 import imageUpLoadEmpty from '/public/image.png'
 import { v4 as uuidv4 } from 'uuid' // thư viện cung cấp id unique toàn cầu
-import { allRoleApi } from '../../services/api.js'
+import { callApi } from '../../services/api.js'
 
+const api_all_role = import.meta.env.VITE_API_SHOW_ROLE
 const api_add_users = import.meta.env.VITE_API_ADD_USER
 
 function FormAddUser() {
@@ -49,7 +50,7 @@ function FormAddUser() {
   useEffect(() => {
     const fetchRoleApi = async () => {
       try {
-        const result = await allRoleApi()
+        const result = await callApi(api_all_role)
         setApiRole(result.role)
       } catch (error) {
         console.log('fetchApi error:', error)

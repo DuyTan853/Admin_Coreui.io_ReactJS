@@ -20,9 +20,10 @@ import {
 } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilPencil, cilCloudUpload } from '@coreui/icons'
-import { allStatusApi } from '../../services/api'
+import { callApi } from '../../services/api'
 
 // define api link
+const api_all_status = import.meta.env.VITE_API_SHOW_STATUS
 const api_add_status = import.meta.env.VITE_API_ADD_STATUS
 const api_update_status = import.meta.env.VITE_API_UPDATE_STATUS
 const api_delete_status = import.meta.env.VITE_API_DELETE_STATUS
@@ -34,7 +35,7 @@ function FormAddStatus() {
   const CBFetchAllStatus = async () => {
     //nếu tách fetchAllStatus khỏi useEffect thì bị báo lỗi eslint nên tạo hẳn hàm mới cho việc gọi lại api khi CRUD status mới
     try {
-      const result = await allStatusApi()
+      const result = await callApi(api_all_status)
       setAllStatus(result.status)
     } catch (error) {
       console.log('call api error:', error)
@@ -43,7 +44,7 @@ function FormAddStatus() {
   useEffect(() => {
     const fetchAllStatus = async () => {
       try {
-        const result = await allStatusApi()
+        const result = await callApi(api_all_status)
         setAllStatus(result.status)
       } catch (error) {
         console.log('call api error:', error)
