@@ -13,6 +13,8 @@ import {
 } from '@coreui/icons'
 import { CNavItem, CNavTitle, CNavGroup } from '@coreui/react'
 
+const auth = JSON.parse(localStorage.getItem('auth'))
+
 const _nav = [
   {
     component: CNavItem,
@@ -81,18 +83,23 @@ const _nav = [
     to: '/allusers',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
-  {
-    component: CNavItem,
-    name: 'Add user',
-    to: '/adduser',
-    icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Add role',
-    to: '/addrole',
-    icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
-  },
+  // Chỉ hiển thị nếu auth tồn tại
+  ...(auth.user.permissions == 'admin'
+    ? [
+        {
+          component: CNavItem,
+          name: 'Add user',
+          to: '/adduser',
+          icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
+        },
+        {
+          component: CNavItem,
+          name: 'Add role',
+          to: '/addrole',
+          icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
+        },
+      ]
+    : []),
   {
     component: CNavTitle,
     name: 'Orders management',

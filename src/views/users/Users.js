@@ -25,7 +25,7 @@ const api_delete_user = import.meta.env.VITE_API_DELETE_USER
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
 
 const Users = () => {
-  const [allUsers, setAllUsers] = useState([]) // State to hold all products data
+  const [allUsers, setAllUsers] = useState([]) // State to hold all users data
   const [update, setUpdate] = useState(false)
   const [page, setPage] = useState(1) // trang hiện tại
   const [limit] = useState(10) // số user mỗi trang
@@ -45,20 +45,20 @@ const Users = () => {
     }
     fetchApi(page, limit)
   }, [page, limit])
-  console.log(allUsers)
-  // show detail product
-  const clickShowDetailProduct = (id) => {
+
+  // show detail user
+  const clickShowDetailUser = (id) => {
     console.log(id)
   }
 
-  // edit product
-  const clickEditProductById = (product) => {
-    console.log(product.categoryId)
-    setUpdate({ product: { ...product }, update: true })
+  // edit user
+  const clickEditUserById = (user) => {
+    console.log(user.idUser)
+    setUpdate({ user: { ...user }, update: true })
   }
 
-  // delete product
-  const clickDeleteProductById = async (id) => {
+  // delete user
+  const clickDeleteUserById = async (id) => {
     if (!window.confirm('Bạn có chắc muốn xóa user này?')) return
 
     try {
@@ -114,13 +114,13 @@ const Users = () => {
                     <CTableDataCell>{user.addresses}</CTableDataCell>
                     <CTableDataCell>
                       <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-                        <CButton color="info" onClick={() => clickShowDetailProduct(user.idUser)}>
+                        <CButton color="info" onClick={() => clickShowDetailUser(user.idUser)}>
                           <CIcon icon={cilFile} />
                         </CButton>
-                        <CButton color="primary" onClick={() => clickEditProductById(user)}>
+                        <CButton color="primary" onClick={() => clickEditUserById(user)}>
                           <CIcon icon={cilPencil} />
                         </CButton>
-                        <CButton color="danger" onClick={() => clickDeleteProductById(user.idUser)}>
+                        <CButton color="danger" onClick={() => clickDeleteUserById(user.idUser)}>
                           <CIcon icon={cilTrash} />
                         </CButton>
                       </div>
@@ -163,7 +163,7 @@ const Users = () => {
       {update && (
         <FormUpdareUser
           visible={update.update}
-          product={update.product}
+          user={update.user}
           Cancel={() => setUpdate(false)}
           fetchResetApi={fetchResetApi}
         />

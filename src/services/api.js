@@ -9,6 +9,8 @@ const api_all_status = import.meta.env.VITE_API_SHOW_STATUS
 const api_all_users = import.meta.env.VITE_API_SHOW_USERS
 const api_all_role = import.meta.env.VITE_API_SHOW_ROLE
 const api_show_users_by_limit = import.meta.env.VITE_API_SHOW_USERS_LIMIT
+const api_all_orders = import.meta.env.VITE_API_SHOW_ORDERS
+const api_all_questions = import.meta.env.VITE_API_SHOW_QUESTION
 
 export const allProductsApi = () =>
   axios
@@ -109,6 +111,30 @@ export const allRoleApi = () =>
 export const showUsersByLimit = (page, limit) =>
   axios
     .get(`${api_show_users_by_limit}?page=${page}&limit=${limit}`)
+    .then((response) => {
+      console.log('API response All data:', response.data)
+      return response.data
+    })
+    .catch((error) => {
+      console.error('Error fetching data from API:', error)
+      throw error
+    })
+
+export const showAllOrder = () =>
+  axios
+    .get(`${api_all_orders}`)
+    .then((response) => {
+      console.log('API response All data:', response.data)
+      return response.data
+    })
+    .catch((error) => {
+      console.error('Error fetching data from API:', error)
+      throw error
+    })
+
+export const showAllQuestion = () =>
+  axios
+    .get(`${api_all_questions}`)
     .then((response) => {
       console.log('API response All data:', response.data)
       return response.data
