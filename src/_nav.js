@@ -48,14 +48,14 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Add brand',
-        to: '/addbrands',
+        name: 'Add categories',
+        to: '/addcategories',
         icon: <CIcon icon={cilPlaylistAdd} customClassName="nav-icon" />,
       },
       {
         component: CNavItem,
-        name: 'Add categories',
-        to: '/addcategories',
+        name: 'Add brand',
+        to: '/addbrands',
         icon: <CIcon icon={cilPlaylistAdd} customClassName="nav-icon" />,
       },
       {

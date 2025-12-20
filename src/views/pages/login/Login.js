@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -17,21 +18,13 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import { callApi } from '../../../services/api.js'
 
-const api_all_users = import.meta.env.VITE_API_SHOW_USERS
+const api_login = import.meta.env.VITE_API_LOGIN
 
 const Login = () => {
   const navigate = useNavigate()
 
   const [apiUser, setApiUser] = useState([])
   const [account, setAccount] = useState({ userName: '', password: '' })
-
-  useEffect(() => {
-    const fetchApiUser = async () => {
-      const result = await callApi(api_all_users)
-      setApiUser(result.users)
-    }
-    fetchApiUser()
-  }, [])
 
   // handle input account
   const handleInput = (e) => {
@@ -42,30 +35,32 @@ const Login = () => {
 
   // click handle login
   const handleLogin = async () => {
-    const foundUser = apiUser.find(
-      (user) => user.userName === account.userName && user.password === account.password,
-    )
-
     if (!account.userName || !account.password) {
       alert('Vui lòng nhập đủ thông tin')
       return
     }
+    try {
+      const res = await axios.post(`${api_login}`, {
+        userName: account.userName,
+        password: account.password,
+      })
+      const { token, user } = res.data
 
-    if (foundUser) {
-      // lưu đăng nhập vào localStorage để có thể sử dụng ở các page khác với dữ liệu của user này
       const loginData = {
-        user: foundUser,
+        token,
+        user,
         loginDate: new Date().toISOString(),
       }
-      localStorage.setItem('auth', JSON.stringify(loginData))
 
+      localStorage.setItem('auth', JSON.stringify(loginData))
       navigate('/dashboard', { replace: true })
-      window.location.reload() // ép reload để đọc localStorage mới
-    } else {
-      alert('tài khoản không đúng vui lòng nhập lại ')
-      setAccount({ userName: '', password: '' })
+      window.location.reload()
+    } catch (error) {
+      alert('Tài khoản hoặc mật khẩu không đúng')
+      // setAccount({ userName: '', password: '' })
     }
   }
+
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
       <CContainer>

@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
@@ -17,6 +17,7 @@ import {
   CTableHeaderCell,
   CTableDataCell,
   CTableBody,
+  CFormSelect,
 } from '@coreui/react'
 import { CIcon } from '@coreui/icons-react'
 import { cilTrash, cilPencil, cilCloudUpload } from '@coreui/icons'
@@ -28,11 +29,18 @@ const api_all_brands = import.meta.env.VITE_API_SHOW_BRANDS
 const api_add_brand = import.meta.env.VITE_API_ADD_BRAND
 const api_update_brand = import.meta.env.VITE_API_UPDATE_BRAND
 const api_delete_brand = import.meta.env.VITE_API_DELETE_BRAND
+const api_all_categories = import.meta.env.VITE_API_SHOW_CATEGORIES
 const host_name_uploads = import.meta.env.VITE_HOST_NAME_UPLOADS
 
 function FormAddBrand() {
   const [allBrands, setAllBrands] = useState([]) // chứa data từ api brand
-  const [containerBrands, setContainerBrands] = useState({ id: '', nameBrand: '', logo: '' })
+  const [containerBrands, setContainerBrands] = useState({
+    id: '',
+    nameBrand: '',
+    category: '',
+    logo: '',
+  })
+  const [apiCategories, setApiCategories] = useState([])
   const [previewImages, setPreviewImages] = useState([]) // show image trực tiếp sau khi chọn file
   const [image, setImage] = useState([])
   const [imageUpLoadEmpty, setImageUpLoadEmpty] = useState(imageUpLoad)
@@ -51,6 +59,10 @@ function FormAddBrand() {
       try {
         const result = await callApi(api_all_brands)
         setAllBrands(result.brands)
+
+        // call api CATEGORIES
+        const resultApiCategories = await callApi(api_all_categories)
+        setApiCategories(resultApiCategories.categories)
       } catch (error) {
         console.log('call api error:', error)
       }
@@ -58,6 +70,18 @@ function FormAddBrand() {
     fetchAllBrands()
   }, [])
 
+  // khai báo để hiển thị ra giá trị của apiCategories cho vào formSelect
+  const valueApiCategories = apiCategories?.map((item) => ({
+    label: item.nameCategory,
+    value: item.nameCategory,
+  }))
+  // event selection form
+  const selectionCategory = (e) => {
+    const { name, value } = e.target
+    setContainerBrands((prev) => ({ ...prev, [name]: value }))
+
+    // console.log(containerSpec)
+  }
   // Khi người dùng chọn file
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files)
@@ -91,6 +115,7 @@ function FormAddBrand() {
 
     formData.append('logo', image[0])
     formData.append('nameBrand', containerBrands.nameBrand)
+    formData.append('category', containerBrands.category)
 
     try {
       const res = await axios.post(`${api_add_brand}`, formData, {
@@ -103,27 +128,25 @@ function FormAddBrand() {
     } catch (err) {
       console.error('Lỗi khi tạo brand:', err)
     }
-    console.log('__________________________')
-    console.log('nameBrand:', containerBrands.nameBrand)
-    console.log('logo:', image)
-    console.log('ADD product', formData)
+
     // reload list và reset form
     CBFetchAllBrands()
-    setContainerBrands({ id: '', nameBrand: '', logo: '' })
+    setContainerBrands({ id: '', nameBrand: '', category: '', logo: '' })
     setImageUpLoadEmpty(imageUpLoad)
     setPreviewImages([])
     setImage([])
   }
 
   // edit brand
-  const clickShowEditBrandById = async (id, nameBrand, logo) => {
-    setContainerBrands({ id, nameBrand })
+  const clickShowEditBrandById = async (id, nameBrand, category, logo) => {
+    setContainerBrands({ id, nameBrand, category, logo })
     setImageUpLoadEmpty(`${host_name_uploads}${logo}`)
   }
 
   const updateBrand = async (id) => {
     const formData = new FormData()
     formData.append('nameBrand', containerBrands.nameBrand)
+    formData.append('category', containerBrands.category)
     if (image.length > 0) formData.append('logo', image[0]) // chỉ append nếu có ảnh mới
 
     try {
@@ -132,22 +155,21 @@ function FormAddBrand() {
       })
 
       alert('Sửa brand thành công!')
-      CBFetchAllBrands() // reload list
+      // reload list và reset form
+      CBFetchAllBrands()
+      setContainerBrands({ id: '', nameBrand: '', category: ' ', logo: '' })
+      setImageUpLoadEmpty(imageUpLoad)
+      setPreviewImages([])
+      setImage([])
     } catch (err) {
       console.error('Lỗi khi sửa brand:', err)
       alert('Sửa brand thất bại!')
     }
-    // reload list và reset form
-    CBFetchAllBrands()
-    setContainerBrands({ id: '', nameBrand: '', logo: '' })
-    setImageUpLoadEmpty(imageUpLoad)
-    setPreviewImages([])
-    setImage([])
   }
 
   // button cancel update
-  const clickUpdateBrand = () => {
-    setContainerBrands({ id: '', nameBrand: '', logo: '' })
+  const clickCancelBrand = () => {
+    setContainerBrands({ id: '', nameBrand: '', category: ' ', logo: '' })
     setImageUpLoadEmpty(imageUpLoad)
     setPreviewImages([])
     setImage([])
@@ -166,7 +188,7 @@ function FormAddBrand() {
     }
     // reload list và reset form
     CBFetchAllBrands()
-    setContainerBrands({ id: '', nameBrand: '', logo: '' })
+    setContainerBrands({ id: '', nameBrand: '', category: '', logo: '' })
     setImageUpLoadEmpty(imageUpLoad)
     setPreviewImages([])
     setImage([])
@@ -189,7 +211,7 @@ function FormAddBrand() {
                 color="primary"
                 type="submit"
                 className="fw-bold mb-2 mt-2"
-                onClick={() => clickUpdateBrand()}
+                onClick={() => clickCancelBrand()}
               >
                 CANCEL <CIcon icon={cilPencil} size="lg" />
               </CButton>
@@ -209,6 +231,20 @@ function FormAddBrand() {
                       name="nameBrand"
                       value={containerBrands.nameBrand}
                       onChange={handleChange}
+                    />
+                    <CFormSelect
+                      className="mb-3"
+                      aria-label="Default select example"
+                      name="category"
+                      value={containerBrands.category || ''}
+                      options={[
+                        {
+                          label: containerBrands.category || '- - - Select Category - - -',
+                          value: '',
+                        },
+                        ...valueApiCategories, // thêm từ API
+                      ]}
+                      onChange={(e) => selectionCategory(e)} // lưu value
                     />
                   </CCol>
                   <CCol>
@@ -260,6 +296,7 @@ function FormAddBrand() {
                       <CTableRow>
                         <CTableHeaderCell scope="col">Logo</CTableHeaderCell>
                         <CTableHeaderCell scope="col">Name brand</CTableHeaderCell>
+                        <CTableHeaderCell scope="col">Category</CTableHeaderCell>
 
                         <CTableHeaderCell scope="col">Action</CTableHeaderCell>
                       </CTableRow>
@@ -276,6 +313,7 @@ function FormAddBrand() {
                               />
                             </CTableHeaderCell>
                             <CTableDataCell>{brand.nameBrand}</CTableDataCell>
+                            <CTableDataCell>{brand.category}</CTableDataCell>
 
                             <CTableDataCell>
                               <div className="d-grid gap-2 d-md-flex justify-content-md-start">
@@ -285,6 +323,7 @@ function FormAddBrand() {
                                     clickShowEditBrandById(
                                       brand.idBrand,
                                       brand.nameBrand,
+                                      brand.category,
                                       brand.logo,
                                     )
                                   }
