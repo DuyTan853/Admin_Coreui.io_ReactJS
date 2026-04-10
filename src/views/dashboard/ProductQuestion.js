@@ -114,7 +114,13 @@ const ProductQuestion = () => {
                   alignItems: 'center',
                 }}
               >
-                <CCardLink href="#">show product</CCardLink>
+                <CButton
+                  color="info"
+                  // style={{ marginLeft: 'auto' }}
+                  onClick={() => window.open(question.link, '_blank', 'noopener,noreferrer')}
+                >
+                  go to product
+                </CButton>{' '}
                 <CButton
                   color="danger"
                   style={{ marginLeft: 'auto' }}

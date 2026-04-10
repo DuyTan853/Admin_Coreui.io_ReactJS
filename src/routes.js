@@ -15,6 +15,7 @@ const FormAddUser = React.lazy(() => import('./views/users/FormAddUser.js'))
 const FormAddRole = React.lazy(() => import('./views/users/FormAddRole.js'))
 const Orders = React.lazy(() => import('./views/orders/order.js'))
 const Revenue = React.lazy(() => import('./views/revenue/Revenue.js'))
+const FormAddBanner = React.lazy(() => import('./views/banners/FormAddBanner.js'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -32,6 +33,7 @@ const routes = [
   { path: '/addrole', name: 'Add specs', element: FormAddRole },
   { path: '/allorders', name: 'All orders', element: Orders },
   { path: '/revenue', name: 'Add specs', element: Revenue },
+  { path: '/addbanner', name: 'Add banners', element: FormAddBanner },
 ]
 
 export default routes

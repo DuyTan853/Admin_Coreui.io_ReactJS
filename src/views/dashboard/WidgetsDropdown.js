@@ -13,7 +13,7 @@ import { getStyle } from '@coreui/utils'
 import { CChartBar, CChartLine } from '@coreui/react-chartjs'
 import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
-import { callApi } from '../../services/api.js'
+import { callApi, callApiWithToken } from '../../services/api.js'
 
 const WidgetsDropdown = (props) => {
   const widgetChartRef1 = useRef(null)
@@ -43,6 +43,8 @@ const WidgetsDropdown = (props) => {
   const api_all_questions = import.meta.env.VITE_API_SHOW_QUESTION
   const api_all_orders = import.meta.env.VITE_API_SHOW_ORDERS
 
+  const auth = JSON.parse(localStorage.getItem('auth'))
+
   // lấy ra tổng
   const [count, setCount] = useState({})
   useEffect(() => {
@@ -62,7 +64,7 @@ const WidgetsDropdown = (props) => {
       ).length
 
       //count Order
-      const resultOrder = await callApi(api_all_orders)
+      const resultOrder = await callApiWithToken(api_all_orders, auth.token)
       const countOrder = resultOrder.orders.length
 
       setCount({ countProduct, countOrder, countUser, countQuestion })

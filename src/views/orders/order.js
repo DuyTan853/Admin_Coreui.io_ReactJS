@@ -14,23 +14,25 @@ import {
   CTableBody,
   CButton,
 } from '@coreui/react'
-import { callApi } from '../../services/api'
+import { callApiWithToken } from '../../services/api'
 
 const api_show_orders = import.meta.env.VITE_API_SHOW_ORDERS
 const api_update_orders = import.meta.env.VITE_API_UPDATE_ORDER
 const host_name = import.meta.env.VITE_HOST_NAME_UPLOADS
 
+const auth = JSON.parse(localStorage.getItem('auth'))
+
 const Orders = () => {
   const [orders, setAllOrders] = useState([]) // State to hold all Orders data
 
   const fetchResetApi = async () => {
-    const result = await callApi(api_show_orders)
+    const result = await callApiWithToken(api_show_orders, auth.token)
     setAllOrders(result.orders)
   }
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await callApi(api_show_orders)
+      const result = await callApiWithToken(api_show_orders, auth.token)
       setAllOrders(result.orders)
     }
     fetchApi()
@@ -87,7 +89,7 @@ const Orders = () => {
                     </CTableDataCell>
                     <CTableDataCell>{formatVND(order?.total)}</CTableDataCell>
                     <CTableDataCell>{order?.paymentMethod}</CTableDataCell>
-                    <CTableDataCell>{order?.paymentStatus}</CTableDataCell>
+                    <CTableDataCell>{order?.paymentStatus || 'UNPAID'}</CTableDataCell>
                     <CTableDataCell>
                       {order.isConfirm === 1 ? (
                         <CButton color="success">Success</CButton>

@@ -72,7 +72,16 @@ const _nav = [
       },
     ],
   },
-
+  {
+    component: CNavTitle,
+    name: 'Banner management',
+  },
+  {
+    component: CNavItem,
+    name: 'Banner',
+    to: '/addbanner',
+    icon: <CIcon icon={cilApplications} customClassName="nav-icon" />,
+  },
   {
     component: CNavTitle,
     name: 'Users management',

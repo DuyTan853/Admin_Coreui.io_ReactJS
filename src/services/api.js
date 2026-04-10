@@ -23,6 +23,22 @@ export const callApi = (url) =>
       console.error('Error fetching data from API:', error)
       throw error
     })
+// call api with token
+export const callApiWithToken = (url, token) =>
+  axios
+    .get(`${url}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      console.log('API response All data:', response.data)
+      return response.data
+    })
+    .catch((error) => {
+      console.error('Error fetching data from API:', error)
+      throw error
+    })
 
 export const callApiByLimit = (url, page, limit) =>
   axios
